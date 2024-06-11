@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.6">
   <POU Name="Disposable" Id="{7157366b-07e8-46fc-aa2f-38c2e2eab868}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'linkalways'} 
 {attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
@@ -12,11 +12,13 @@ END_VAR]]></Declaration>
     </Implementation>
     <Folder Name="Destructor" Id="{a244c56d-214c-0539-02cc-30986d16b566}" />
     <Method Name="Dispose" Id="{6c98f403-5dd6-4f9d-bc0a-e406c48a07a8}">
-      <Declaration><![CDATA[METHOD Dispose
+      <Declaration><![CDATA[METHOD PUBLIC Dispose
 VAR
+	pThis : POINTER TO Disposable;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[__DELETE(THIS);]]></ST>
+        <ST><![CDATA[pThis := THIS;
+__DELETE(pThis);]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_exit" Id="{0d1dd945-173c-0626-2abd-474b81e0db04}" FolderPath="Destructor\">
@@ -38,5 +40,16 @@ END_IF
 // will already have had FB_exit called by the time we reach this point!]]></ST>
       </Implementation>
     </Method>
+    <LineIds Name="Disposable">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Disposable.Dispose">
+      <LineId Id="3" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="Disposable.FB_exit">
+      <LineId Id="3" Count="8" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>
